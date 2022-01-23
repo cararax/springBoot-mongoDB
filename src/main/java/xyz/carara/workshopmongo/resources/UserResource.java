@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import xyz.carara.workshopmongo.domain.Post;
 import xyz.carara.workshopmongo.domain.User;
 import xyz.carara.workshopmongo.dto.UserDTO;
 import xyz.carara.workshopmongo.services.UserService;
@@ -50,6 +51,12 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable String id) {
        service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 
 }
