@@ -25,17 +25,25 @@ public class UserResource {
         return ResponseEntity.ok().body(listDTO);
     }
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id) {
         User user = service.findById(id);
         return ResponseEntity.ok().body(new UserDTO(user));
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody UserDTO user){
+    public ResponseEntity<Void> insert(@RequestBody UserDTO user) {
         User newUser = service.insert(service.fromDTO(user));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(("/{id}")).buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "{id}")
+    public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id){
+        User userUpdated = service.fromDTO(userDTO);
+        userUpdated.setId(id);
+        userUpdated = service.update(userUpdated);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value="/{id}")
