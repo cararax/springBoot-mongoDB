@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import xyz.carara.workshopmongo.services.exception.ObjectNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Response;
 
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException exception, HttpServletRequest request){
+    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException exception, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError error = new StandardError(System.currentTimeMillis(), status.value(), "Não encontrado", exception.getMessage(), request.getRequestURI());

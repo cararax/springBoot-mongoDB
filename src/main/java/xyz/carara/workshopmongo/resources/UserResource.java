@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value = "/users")
 public class UserResource {
     @Autowired
     private UserService service;
@@ -40,16 +40,16 @@ public class UserResource {
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id){
+    public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id) {
         User userUpdated = service.fromDTO(userDTO);
         userUpdated.setId(id);
         userUpdated = service.update(userUpdated);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-       service.delete(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 

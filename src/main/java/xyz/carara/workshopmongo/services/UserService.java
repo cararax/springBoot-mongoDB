@@ -25,11 +25,11 @@ public class UserService {
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
     }
 
-    public User insert(User user){
+    public User insert(User user) {
         return repository.insert(user);
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         findById(id);
         repository.deleteById(id);
     }
@@ -40,12 +40,12 @@ public class UserService {
         return repository.save(userUpdated);
     }
 
-    private void updateData(User newUser, User user){
+    private void updateData(User newUser, User user) {
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
     }
 
-    public User fromDTO(UserDTO user){
+    public User fromDTO(UserDTO user) {
         return new User(user.getId(), user.getName(), user.getEmail());
     }
 
