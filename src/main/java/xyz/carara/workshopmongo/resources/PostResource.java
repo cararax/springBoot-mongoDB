@@ -12,6 +12,7 @@ import xyz.carara.workshopmongo.services.PostService;
 import xyz.carara.workshopmongo.services.UserService;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,20 @@ public class PostResource {
     public ResponseEntity<List<Post>> findBTitle(@RequestParam(value = "title", defaultValue = "") String title) {
         title = URL.decodeParam(title);
         List<Post> postList = service.findByTitle(title);
+        return ResponseEntity.ok().body(postList);
+    }
+
+    @GetMapping(value = "/fullsearch")
+    public ResponseEntity<List<Post>> fullSearch(@RequestParam(value = "text", defaultValue = "") String text,
+                                                 @RequestParam(value = "minDate", defaultValue = "") String minDate,
+                                                 @RequestParam(value = "maxDate", defaultValue = "") String maxDate) {
+        text = URL.decodeParam(text);
+        Date defaultMinDate = new Date(0L);
+        Date min = URL.convertDate(minDate, defaultMinDate);
+        Date currentDate = new Date();
+        Date max = URL.convertDate(maxDate, currentDate);
+
+        List<Post> postList = service.fullSearch(text, min, max);
         return ResponseEntity.ok().body(postList);
     }
 }

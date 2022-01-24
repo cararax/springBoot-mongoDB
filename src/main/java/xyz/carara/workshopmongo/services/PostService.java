@@ -9,6 +9,7 @@ import xyz.carara.workshopmongo.repository.PostRepository;
 import xyz.carara.workshopmongo.repository.UserRepository;
 import xyz.carara.workshopmongo.services.exception.ObjectNotFoundException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,12 @@ public class PostService {
 
     public List<Post> findByTitle(String title){
         return repository.searchTitle(title);
+    }
 
+    public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+        int day = 24 * 60 * 60 * 1000;
+        maxDate = new Date(maxDate.getTime()+day);
+        return repository.fullSearch(text, minDate, maxDate);
     }
 
 }
